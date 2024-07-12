@@ -1,8 +1,8 @@
-import {checkOperationErrors, feesCalculationEngine} from './index.js';
+import checkOperationErrors from './checkOperationErrors.js';
+import feesCalculationEngine from './feesCalculationEngine.js';
 import feesRules from '../constants/feesRules.js';
 
 export default ({ user_id, date, user_type, type, operation }) => {
-
   const operationErrors = checkOperationErrors({
     user_id,
     date,
@@ -19,7 +19,13 @@ export default ({ user_id, date, user_type, type, operation }) => {
 
   const { percents, ruleName, criteria } = feesRules[type][user_type];
 
-  const operationFee = feesCalculationEngine[ruleName]({ percents, criteria, operation, user_id, date });
+  const operationFee = feesCalculationEngine[ruleName]({
+    percents,
+    criteria,
+    operation,
+    user_id,
+    date,
+  });
 
   console.log(operationFee.toFixed(2));
-}
+};

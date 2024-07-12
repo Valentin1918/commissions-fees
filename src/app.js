@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {logOperationOutput} from './utils/index.js';
+import { logOperationOutput } from './utils/index.js';
 
 const jsonFilePath = process.argv[2];
 
