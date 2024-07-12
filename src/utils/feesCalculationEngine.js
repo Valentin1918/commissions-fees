@@ -1,7 +1,17 @@
 import { milliSecondsInDay, daysFromMonTillSun } from '../constants/index.js';
 
-class FeesCalculationEngine {
+export class FeesCalculationEngine {
   #users = {};
+  /*
+  this.#users example while calculating fees:
+    {
+      '1': {
+        '2016/1/4-2016/1/10': [ 30000, 1000, 100, 100 ],
+        '2016/2/15-2016/2/21': [ 300 ]
+      },
+      '3': { '2016/1/4-2016/1/10': [ 1000 ] }
+    }
+  */
 
   #checkRuleCurrency(criteriaCurrency, operationCurrency) {
     if (criteriaCurrency === operationCurrency) return true;
