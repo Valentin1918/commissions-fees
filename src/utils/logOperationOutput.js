@@ -1,6 +1,6 @@
 import checkOperationErrors from './checkOperationErrors.js';
 import feesCalculationEngine from './feesCalculationEngine.js';
-import feesRules from '../constants/feesRules.js';
+import feeRuleDetails from '../constants/feeRuleDetails.js';
 
 export default ({ user_id, date, user_type, type, operation }) => {
   const operationErrors = checkOperationErrors({
@@ -17,7 +17,7 @@ export default ({ user_id, date, user_type, type, operation }) => {
     return;
   }
 
-  const { percents, ruleName, criteria } = feesRules[type][user_type];
+  const { percents, ruleName, criteria } = feeRuleDetails[type][user_type];
 
   const operationFee = feesCalculationEngine[ruleName]({
     percents,
