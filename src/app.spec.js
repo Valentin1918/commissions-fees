@@ -1,18 +1,21 @@
 import fs from 'fs';
 
-const mockLogOperationOutput = jest.fn();
-jest.mock('./utils/logOperationOutput.js', () => mockLogOperationOutput);
+const mockProceedOperation = jest.fn();
+jest.mock('./utils/proceedOperation.js', () => mockProceedOperation);
 
 describe('app', () => {
   const originalArgv = process.argv;
+  const originalConsoleLog = console.log;
 
   beforeEach(() => {
     jest.resetModules(); // Clear module registry to reset process.argv changes
+    console.log = jest.fn();
     process.argv = [...originalArgv];
   });
 
   afterEach(() => {
     process.argv = originalArgv;
+    console.log = originalConsoleLog;
   });
 
   it('exits with error if no JSON file path is provided', async () => {
@@ -80,9 +83,9 @@ describe('app', () => {
     mockReadFile.mockRestore();
   });
 
-  it('calls logOperationOutput for each operation in the JSON file', async () => {
+  it('calls proceedOperation and console.log for each operation in the JSON file', async () => {
     const mockReadFile = jest.spyOn(fs, 'readFile');
-    mockLogOperationOutput.mockRestore();
+    mockProceedOperation.mockRestore();
 
     const operations = [
       {
@@ -109,9 +112,10 @@ describe('app', () => {
 
     await import('./app.js'); // Load and execute the script
 
-    expect(mockLogOperationOutput).toHaveBeenCalledTimes(2);
-    expect(mockLogOperationOutput).toHaveBeenCalledWith(operations[0]);
-    expect(mockLogOperationOutput).toHaveBeenCalledWith(operations[1]);
+    expect(mockProceedOperation).toHaveBeenCalledTimes(2);
+    expect(mockProceedOperation).toHaveBeenCalledWith(operations[0]);
+    expect(mockProceedOperation).toHaveBeenCalledWith(operations[1]);
+    expect(console.log).toHaveBeenCalledTimes(2);
 
     mockReadFile.mockRestore();
   });

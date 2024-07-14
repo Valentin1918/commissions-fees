@@ -14,12 +14,8 @@ export class FeesCalculationEngine {
   */
 
   #checkRuleCurrency(criteriaCurrency, operationCurrency) {
-    if (criteriaCurrency === operationCurrency) return true;
-
-    console.log(
-      `No correspondent fee rule detected for provided currency: ${operationCurrency}`,
-    );
-    return false;
+    return criteriaCurrency === operationCurrency;
+    // If different - no correspondent fee rule detected for provided currency
   }
 
   #getDateName(date) {
@@ -31,24 +27,27 @@ export class FeesCalculationEngine {
   }
 
   max({ percents, criteria, operation }) {
-    if (!this.#checkRuleCurrency(criteria.currency, operation.currency))
+    if (!this.#checkRuleCurrency(criteria.currency, operation.currency)) {
       return 0;
+    }
 
     const result = this.#calculateResult(operation.amount, percents);
     return result < criteria.amount ? result : criteria.amount;
   }
 
   min({ percents, criteria, operation }) {
-    if (!this.#checkRuleCurrency(criteria.currency, operation.currency))
+    if (!this.#checkRuleCurrency(criteria.currency, operation.currency)) {
       return 0;
+    }
 
     const result = this.#calculateResult(operation.amount, percents);
     return result < criteria.amount ? criteria.amount : result;
   }
 
   week_limit({ percents, criteria, operation, user_id, date }) {
-    if (!this.#checkRuleCurrency(criteria.currency, operation.currency))
+    if (!this.#checkRuleCurrency(criteria.currency, operation.currency)) {
       return 0;
+    }
 
     const operationDate = new Date(date);
     const dayNumber = operationDate.getDay() - 1; // -1 makes Monday equal 0, and Sunday -1. We need it for operating with Mon-Sun week format

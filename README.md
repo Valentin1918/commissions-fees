@@ -45,7 +45,8 @@ Needs to run only once -- establish pre-commit and pre-push hooks
 
 ~ `src/app.js` --> root file which is running from `npm run execute`.
 It is reading and parsing file by path provided as a second argument of the `execute` script.
-For each operation it fires the `logOperationOutput` function and passes the operation's data as an argument.
+For each operation it fires the `proceedOperation` function with the operation's data as an argument.
+The result (a fee or a bunch of operation errors) is logged into a terminal.
 
 ~ `src/input.json` --> data from what fees are calculated and displayed.
 
@@ -83,11 +84,11 @@ This class can be extended with any additional calculation rules.
 ~ `src/utils/checkOperationErrors.js` --> as there is no TS, I've decided to add such input validation layer.
 It simply validates an operation input and returns an array of errors, or empty array is all is fine.
 
-~ `src/utils/logOperationOutput.js` --> this function is running for each operation.
+~ `src/utils/proceedOperation.js` --> this function is running for each operation.
 It checks the operation validity with `checkOperationErrors`.
-If there are resulting errors, it displays them and don't proceed further.
+If there are resulting errors, it returns them and don't proceed further.
 If the operation is valid it is retrieving the needed `ruleName` from the `feeRuleDetails` based on the `operationType`
 and `operationUserType`.
 It runs the `feesCalculationEngine` instance method with the name equal to `ruleName` value
 and passing there as argument an object with correspondent `feeRuleDetails` and operation data.
-The fee output is rounded to 2 decimals and logged into a terminal.
+The fee output is rounded to 2 decimals and returned.

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import logOperationOutput from './utils/logOperationOutput.js';
+import proceedOperation from './utils/proceedOperation.js';
 
 const jsonFilePath = process.argv[2];
 
@@ -17,7 +17,10 @@ fs.readFile(path.resolve(jsonFilePath), 'utf8', (err, data) => {
 
   try {
     const operations = JSON.parse(data);
-    operations.forEach((args) => logOperationOutput(args));
+    operations.forEach((args) => {
+      const operationOutput = proceedOperation(args);
+      console.log(operationOutput);
+    });
   } catch (error) {
     console.error('Error parsing JSON:', error);
   }

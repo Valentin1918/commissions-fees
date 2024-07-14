@@ -13,8 +13,7 @@ export default ({ user_id, date, user_type, type, operation }) => {
   });
 
   if (operationErrors.length) {
-    console.log(operationErrors.join(' '));
-    return;
+    return operationErrors.join(' ');
   }
 
   const { percents, ruleName, criteria } = feeRuleDetails[type][user_type];
@@ -27,5 +26,5 @@ export default ({ user_id, date, user_type, type, operation }) => {
     date,
   });
 
-  console.log(operationFee.toFixed(2));
+  return operationFee.toFixed(2);
 };
