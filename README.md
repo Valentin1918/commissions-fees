@@ -50,7 +50,8 @@ The result (a fee or a bunch of operation errors) is logged into a terminal.
 
 ~ `src/input.json` --> data from what fees are calculated and displayed.
 
-~ `src/constants/feeRuleDetails.js` --> consolidated presentation of the fees calculation rule details.
+~ `src/constants/feeRuleDetails.js` --> consolidated presentation of the fee calculation rule details.
+**Also this structure defines which calculation rule from the `feesCalculationEngine` will be applied to an operation.**
 It is organised by `operationType` and by `operationUserType`.
 Resulting rule details object has always the same interface:
 
